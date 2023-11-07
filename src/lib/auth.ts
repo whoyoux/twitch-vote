@@ -6,7 +6,6 @@ import type {
 } from "next";
 
 import TwitchProvider from "next-auth/providers/twitch";
-import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
 
@@ -17,10 +16,6 @@ export const authOptions = {
     TwitchProvider({
       clientId: process.env.TWITCH_CLIENT_ID!,
       clientSecret: process.env.TWITCH_CLIENT_SECRET!,
-    }),
-    DiscordProvider({
-      clientId: "1171479451738046506",
-      clientSecret: "xaodbKqnHZthuxqI6rqWC2gaBdrPCdnv",
     }),
   ],
   callbacks: {
