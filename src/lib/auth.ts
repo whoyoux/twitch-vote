@@ -1,18 +1,31 @@
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { getServerSession, type NextAuthOptions } from "next-auth";
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 
 import TwitchProvider from "next-auth/providers/twitch";
-import { db } from "@/lib/drizzle";
+import DiscordProvider from "next-auth/providers/discord";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "./prisma";
 
-export const authOptions: NextAuthOptions = {
-  adapter: DrizzleAdapter(db),
+export const authOptions = {
+  adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET!,
   providers: [
     TwitchProvider({
       clientId: process.env.TWITCH_CLIENT_ID!,
       clientSecret: process.env.TWITCH_CLIENT_SECRET!,
     }),
+    DiscordProvider({
+      clientId: "1171479451738046506",
+      clientSecret: "xaodbKqnHZthuxqI6rqWC2gaBdrPCdnv",
+    }),
   ],
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     async session({ session, user }) {
       if (session.user) {
@@ -21,6 +34,13 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-};
+} satisfies NextAuthOptions;
 
-export const getAuthSession = () => getServerSession(authOptions);
+export function getAuthSession(
+  ...args:
+    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+    | [NextApiRequest, NextApiResponse]
+    | []
+) {
+  return getServerSession(...args, authOptions);
+}

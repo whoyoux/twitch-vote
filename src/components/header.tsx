@@ -26,7 +26,7 @@ const Header = () => {
 const Account = () => {
   const signInHandler = async () => {
     try {
-      await signIn("twitch");
+      await signIn();
     } catch (err) {
       console.log(err);
     }
