@@ -35,6 +35,14 @@ const Account = () => {
     }
   };
 
+  if (session.status === "loading") {
+    return (
+      <Button size="lg" disabled>
+        Loading
+      </Button>
+    );
+  }
+
   return (
     <div>
       {session.status === "authenticated" ? (
