@@ -1,8 +1,9 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import ThemeSwitcher from "./theme-switcher";
 import { Button } from "./ui/button";
+import { Session, User } from "@prisma/client";
 
 const Header = () => {
   return (
@@ -24,17 +25,28 @@ const Header = () => {
 };
 
 const Account = () => {
+  const session = useSession();
+
   const signInHandler = async () => {
     try {
-      await signIn();
+      await signIn("twitch");
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
-    <Button size="lg" onClick={signInHandler}>
-      Login via Twitch
-    </Button>
+    <div>
+      {session.status === "authenticated" ? (
+        <Button size="lg" onClick={() => signOut()}>
+          Log out
+        </Button>
+      ) : (
+        <Button size="lg" onClick={signInHandler}>
+          Login via Twitch
+        </Button>
+      )}
+    </div>
   );
 };
 

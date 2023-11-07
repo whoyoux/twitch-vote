@@ -14,65 +14,112 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import QuestionForm from "./question";
 
-const FormSchema = z.object({
-  type: z.enum(["all", "mentions", "none"], {
-    required_error: "You need to select a notification type.",
-  }),
-});
+type Answer = {
+  text: string;
+};
+
+export type Question = {
+  question: string;
+  answers: Answer[];
+};
+
+const questions: Question[] = [
+  {
+    question: "pytanie nr. 1",
+    answers: [
+      {
+        text: "nr. 1",
+      },
+      {
+        text: "nr. 2",
+      },
+      {
+        text: "nr. 3",
+      },
+      {
+        text: "nr. 4",
+      },
+    ],
+  },
+  {
+    question: "What is your favorite color?",
+    answers: [
+      {
+        text: "Red",
+      },
+      {
+        text: "Blue",
+      },
+      {
+        text: "Green",
+      },
+      {
+        text: "Yellow",
+      },
+    ],
+  },
+  {
+    question: "What is your favorite food?",
+    answers: [
+      {
+        text: "Pizza",
+      },
+      {
+        text: "Burger",
+      },
+      {
+        text: "Sushi",
+      },
+      {
+        text: "Tacos",
+      },
+    ],
+  },
+  {
+    question: "What is your favorite animal?",
+    answers: [
+      {
+        text: "Dog",
+      },
+      {
+        text: "Cat",
+      },
+      {
+        text: "Bird",
+      },
+      {
+        text: "Fish",
+      },
+    ],
+  },
+  {
+    question: "What is your favorite hobby?",
+    answers: [
+      {
+        text: "Reading",
+      },
+      {
+        text: "Gaming",
+      },
+      {
+        text: "Sports",
+      },
+      {
+        text: "Cooking",
+      },
+    ],
+  },
+];
 
 const VoteForm = () => {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-  });
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(JSON.stringify(data, null, 2));
-  }
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel className="text-2xl">przykladowe pytanie</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="all" />
-                    </FormControl>
-                    <FormLabel className="font-normal text-xl">dupa</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="mentions" />
-                    </FormControl>
-                    <FormLabel className="font-normal text-xl">cwl</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="none" />
-                    </FormControl>
-                    <FormLabel className="font-normal text-xl">
-                      luzak jursoon ale on ma luuuuuuuuz
-                    </FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+    <div className="flex flex-col gap-8">
+      {questions.map((question) => (
+        <QuestionForm question={question} key={question.question} />
+      ))}
+    </div>
   );
 };
 
