@@ -23,9 +23,6 @@ export const authOptions = {
       clientSecret: "xaodbKqnHZthuxqI6rqWC2gaBdrPCdnv",
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
   callbacks: {
     async session({ session, user }) {
       if (session.user) {
