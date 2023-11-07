@@ -1,3 +1,6 @@
+"use client";
+
+import { signIn } from "next-auth/react";
 import ThemeSwitcher from "./theme-switcher";
 import { Button } from "./ui/button";
 
@@ -13,6 +16,7 @@ const Header = () => {
 
       <div className="flex items-center gap-4">
         <Account />
+
         <ThemeSwitcher />
       </div>
     </header>
@@ -20,7 +24,18 @@ const Header = () => {
 };
 
 const Account = () => {
-  return <Button size="lg">Login via Twitch</Button>;
+  const signInHandler = async () => {
+    try {
+      await signIn("twitch");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return (
+    <Button size="lg" onClick={signInHandler}>
+      Login via Twitch
+    </Button>
+  );
 };
 
 export default Header;
