@@ -1,9 +1,11 @@
-import { getAuthSession } from "@/lib/auth";
+import VoteForm from "./vote-form";
 
-const Vote = () => {
-  const session = getAuthSession();
-
-  return <div>{JSON.stringify(session, null, 2)}</div>;
+const Vote = async () => {
+  return (
+    <div>
+      <VoteForm />
+    </div>
+  );
 };
 
 export default Vote;
